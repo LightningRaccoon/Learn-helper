@@ -111,6 +111,7 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 # Own folder
+*.htm
 Source/*.xml
 Source/*.json
 Source/*.csv
