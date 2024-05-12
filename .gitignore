@@ -110,6 +110,16 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+# Own folder
+Source/*.xml
+Source/*.json
+Source/*.csv
+Source/*.txt
+Source/*.xlsx
+Source/*.xls
+Source/*.htm
+Source/*.html
+Source/*.css
 
 # Environments
 .env
@@ -149,4 +159,4 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
