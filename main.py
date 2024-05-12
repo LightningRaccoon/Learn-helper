@@ -45,6 +45,17 @@ def load_images_from_folder(folder_path: str):
     return image_list
 
 
+def load_big_images_from_folder(folder_path: str):
+    # Load only png files from the folder
+    image_list = []
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.png'):
+            path = os.path.join(folder_path, filename)
+            with Image.open(path) as img:
+                img.thumbnail((800, 400))
+                image_list.append(ImageTk.PhotoImage(img))
+    return image_list
+
 def start_program():
     global current_question_index
     current_question_index = 0
@@ -59,11 +70,12 @@ def flip_card():
                    str(questions[current_question_index][2]))
     current_question = (stringTuple[0] + '. ' + stringTuple[1])
     if not flipped:
-        flip_label.config(image=images[current_question_index-1], text='')
+        flip_label.config(image=images_flip[current_question_index-1], text='')
         flipped = True
     else:
         flip_label.config(text=current_question, image='')
         flipped = False
+
 
 def next_card():
     global current_question_index
@@ -221,6 +233,7 @@ if __name__ == '__main__':
 
     # Load the images
     images = load_images_from_folder('Source')
+    images_flip = load_big_images_from_folder('Source')
 
     # Load the Excel sheet
     sheet = load_sheet_from_excel('VizsgaKerdesek.xlsx')
@@ -250,7 +263,7 @@ if __name__ == '__main__':
     ttk.Button(flip_frame, text='Previous', command=previous_card).pack(side=tk.LEFT, padx=10, pady=10)
 
     # A-B-C-D frame
-    abcd_frame = ttk.Frame(notebook, borderwidth=1, relief="solid")
+    abcd_frame = ttk.Frame(notebook)
     notebook.add(abcd_frame, text='A-B-C-D')
 
     current_question_points = 0
@@ -264,12 +277,12 @@ if __name__ == '__main__':
     var3 = tk.PhotoImage()
     var4 = tk.PhotoImage()
 
-    question2_label = ttk.Label(abcd_frame, textvariable=frame_question, font=('TkDefaultFont', 12), borderwidth=1, relief="solid")
+    question2_label = ttk.Label(abcd_frame, textvariable=frame_question, font=('TkDefaultFont', 12))
     question2_label.pack(side=tk.TOP, anchor=tk.W, padx=10, pady=10)
 
     correct_answer_index = tk.IntVar()
 
-    option_frame = tk.Frame(abcd_frame, borderwidth=1, relief="solid", height=800)
+    option_frame = tk.Frame(abcd_frame, height=800)
     option_frame.pack(padx=5, pady=0, fill=tk.BOTH)
 
     option1 = ttk.Radiobutton(option_frame, image=var1,  value=0, variable=selected_answer)
@@ -284,10 +297,10 @@ if __name__ == '__main__':
     option4 = ttk.Radiobutton(option_frame, image=var4, value=3, variable=selected_answer)
     option4.pack(anchor=tk.W, padx=10, pady=10)
 
-    validation_frame = ttk.Frame(abcd_frame, borderwidth=1, relief="solid")
+    validation_frame = ttk.Frame(abcd_frame)
     validation_frame.pack(padx=5, pady=0, fill=tk.BOTH)
 
-    validation_label = ttk.Label(validation_frame, textvariable=validation_message, borderwidth=1, relief="solid")
+    validation_label = ttk.Label(validation_frame, textvariable=validation_message)
     validation_label.pack(side=tk.LEFT, padx=5, pady=10)
 
     # button_frame = ttk.Frame(abcd_frame)
@@ -298,7 +311,7 @@ if __name__ == '__main__':
     ttk.Button(abcd_frame, text='Validate', command=validate_ABCD).pack(side=tk.RIGHT, padx=10, pady=10)
 
     # Label for the points
-    points_label = ttk.Label(abcd_frame, text='Points: ' + str(achieved_points) + '/' + str(all_points), borderwidth=1, relief="solid")
+    points_label = ttk.Label(abcd_frame, text='Points: ' + str(achieved_points) + '/' + str(all_points))
     points_label.pack(side=tk.RIGHT, padx=10, pady=20)
 
     root.bind("<<NotebookTabChanged>>", tab_changed)
