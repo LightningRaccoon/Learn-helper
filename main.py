@@ -9,7 +9,7 @@ import os
 from PIL import Image, ImageTk
 
 # Global variables
-current_question_index = 0  # Start from the one because the first row is the header
+current_question_index = 0
 achieved_points = 0
 all_points = 0
 validated = False
